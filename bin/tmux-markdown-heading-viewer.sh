@@ -1,13 +1,24 @@
 #!/usr/bin/env bash
 
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 # Check if a folder is set
-MARKDOWN_DIR=$(
-    if command -v fd >/dev/null && command -v tree >/dev/null; then
-        fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}'
-    else
-        find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:40%
-    fi
-)
+
+if [[ -s $CURRENT_DIR/markdown_dir.txt ]];
+
+    MARKDOWN_DIR=$(
+        if command -v fd >/dev/null && command -v tree >/dev/null; then
+            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}'
+        else
+            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:40%
+        fi
+    )
+
+    print "$MARKDOWN_DIR" > $CURRENT_DIR/markdown_dir.txt
+
+else
+    MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
+fi
 
 
 if [[ -z "$MARKDOWN_DIR" ]]; then
