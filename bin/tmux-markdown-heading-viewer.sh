@@ -21,7 +21,7 @@ else
     )
 
     echo "3: $MARKDOWN_DIR" 
-    print "$MARKDOWN_DIR" > $CURRENT_DIR/markdown_dir.txt
+    printf "$MARKDOWN_DIR" > $CURRENT_DIR/markdown_dir.txt
     echo "4: $MARKDOWN_DIR" 
 
 fi
