@@ -59,3 +59,10 @@ Set the root folder in which your markdown files are located
 ```sh
 export MARKDOWN_DIR=/home/user/my_notes/
 ```
+
+
+
+# TO DO 
+m - same folder
+M - new folder
+- starts at /home/

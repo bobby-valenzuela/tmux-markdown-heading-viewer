@@ -2,7 +2,6 @@
 
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Check if a folder is set
 
 if [[ -s $CURRENT_DIR/markdown_dir.txt && "${1}" != 'reset' ]]; then
 
@@ -28,18 +27,26 @@ if [[ -z "$MARKDOWN_DIR" ]]; then
 fi
 
 print_md_section_from_heading(){
+
+    # glow "$FILE" | grep '^#' | fzf --preview 'glow --width 80 --pager "$FILE" --from-line {+2}' --preview-window=up:70%
+
 	HEADING="$(echo "${1}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
 	sed -nE "/^\s*${HEADING}/,$ p" $2 | glow -s dark -p			# Print everything after the matching heading
 }
 
 print_md_section(){
     MSG="Choose a heading (File: ${MARKDOWN_DIR}$1)"
-    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf --preview "grep -A 100 {} $1 " --header "${MSG}")"
+    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "--width 80 grep -A 100 {} $1 " --preview-window right:50% --header "${MSG}")"
 	print_md_section_from_heading "${HEADING}" "${1}"
 }
 
-MSG="Choose a file (Folder: ${MARKDOWN_DIR})"
-FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf --header "${MSG}" )"
+BASE_DIR=$(basename "${MARKDOWN_DIR}")
+MSG="Choose a file (Folder: ${BASE_DIR})"
+if command -v fd >/dev/null; then
+    FILE="$(fd -H --type file -e md -e markdown "$MARKDOWN_DIR" | fzf --header "${MSG}")"
+else
+    FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf --header "${MSG}" )"
+fi
 
 
 if [[ ! -z "$FILE" ]]; then
