@@ -35,7 +35,8 @@ fi
 # }
 
 print_md_section(){
-    MSG="Choose a heading (File: ${MARKDOWN_DIR}$1)"
+    BASE_FILE=$(basename "${1}")
+    MSG="Choose a heading (File: ${BASE_FILE})"
     HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "grep -A 100 {} $1 " --preview-window right:50% --header "${MSG}")"
 	# print_md_section_from_heading "${HEADING}" "${1}"
 	HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
