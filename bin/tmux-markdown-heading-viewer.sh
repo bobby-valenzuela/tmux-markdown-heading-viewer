@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Check if a folder is set
+MARKDOWN_DIR=$(fd --type d . /home/ | fzf --preview 'tree -C {}' )
+
 print_md_section_from_heading(){
 	HEADING="$(echo "${1}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
 	sed -nE "/^\s*${HEADING}/,$ p" $2 | glow -s dark -p			# Print everything after the matching heading
