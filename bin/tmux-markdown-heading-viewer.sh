@@ -4,7 +4,7 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if a folder is set
 
-if [[ -s $CURRENT_DIR/markdown_dir.txt ]];
+if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
 
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
