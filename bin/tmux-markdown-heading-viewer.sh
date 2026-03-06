@@ -16,7 +16,7 @@ else
 
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
-            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}" --layout=reverse --preview 'tree -C {}' --header 'Choose a folder' --preview-window=down:40%
+            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse --preview 'tree -C {}' --header 'Choose a folder' --preview-window=down:40%
         else
             find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}")  --layout=reverse --preview 'ls -la --color=always {}' --preview-window=down:40% --header 'Choose a folder'
         fi
