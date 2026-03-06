@@ -6,6 +6,10 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
 
+    MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
+
+else
+
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
             fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}'
@@ -16,8 +20,6 @@ if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
 
     print "$MARKDOWN_DIR" > $CURRENT_DIR/markdown_dir.txt
 
-else
-    MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
 fi
 
 
