@@ -8,8 +8,10 @@ if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
 
     MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
 
+    echo "1: No 'MARKDOWN_DIR' variable set" && exit
 else
 
+    echo "2: No 'MARKDOWN_DIR' variable set" && exit
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
             fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}' --header 'My Custom fzf Title / File Finder'
