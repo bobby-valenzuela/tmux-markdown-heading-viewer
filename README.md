@@ -9,6 +9,10 @@ Interactively select a Markdown heading from a file and then display the markdow
 - `bash`
 - `glow`
 
+Optional to have (improved setup)  
+- fd  
+- tree  
+
 ## Installation
 
 ### Install using TPM
