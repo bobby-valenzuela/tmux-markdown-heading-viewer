@@ -43,7 +43,7 @@ print_md_section(){
 BASE_DIR=$(basename "${MARKDOWN_DIR}")
 MSG="Choose a file (Folder: ${BASE_DIR})"
 if command -v fd >/dev/null; then
-    FILE="$(fd -H --type file -e md -e markdown "$MARKDOWN_DIR" | fzf --header "${MSG}")"
+    FILE="$(fd -H --type file -e md -e markdown . ${MARKDOWN_DIR} | fzf --header "${MSG}")"
 else
     FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf --header "${MSG}" )"
 fi
