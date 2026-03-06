@@ -4,7 +4,7 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Check if a folder is set
 
-if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
+if [[ -s $CURRENT_DIR/markdown_dir.txt && "${1}" != 'reset' ]]; then
 
     MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
 
