@@ -11,9 +11,9 @@ else
 
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
-            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}' --header 'Choose a folder'
+            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}' --header 'Choose a folder' --preview-window=right:35%
         else
-            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:40% --header 'Choose a folder'
+            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:35% --header 'Choose a folder'
         fi
     )
 
@@ -37,7 +37,8 @@ fi
 print_md_section(){
     BASE_FILE=$(basename "${1}")
     MSG="Choose a heading (File: ${BASE_FILE})"
-    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
+    # HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
+    HEADING="$(grep -E '^\s{0,3}#+' $1 | fzf -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
 	# print_md_section_from_heading "${HEADING}" "${1}"
 	HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
 	sed -nE "/^\s*${HEADING}/,$ p" $1 | glow -s dark -p			# Print everything after the matching heading
