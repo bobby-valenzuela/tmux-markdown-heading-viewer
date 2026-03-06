@@ -8,27 +8,23 @@ if [[ -s $CURRENT_DIR/markdown_dir.txt ]]; then
 
     MARKDOWN_DIR=$(cat $CURRENT_DIR/markdown_dir.txt)
 
-    echo "1: No 'MARKDOWN_DIR' variable set" && exit
 else
 
-    echo "2: No 'MARKDOWN_DIR' variable set"
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
-            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}' --header 'My Custom fzf Title / File Finder'
+            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf --preview 'tree -C {}' --header 'Choose a folder'
         else
-            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:40% --header 'My Custom fzf Title / File Finder'
+            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf --preview 'ls -la --color=always {}' --preview-window=right:40% --header 'Choose a folder'
         fi
     )
 
-    echo "3: $MARKDOWN_DIR" 
     printf "$MARKDOWN_DIR" > $CURRENT_DIR/markdown_dir.txt
-    echo "4: $MARKDOWN_DIR" 
 
 fi
 
 
 if [[ -z "$MARKDOWN_DIR" ]]; then
-    echo "No 'MARKDOWN_DIR' variable set" && exit
+    echo "No folder saved/selected!" && exit
 fi
 
 print_md_section_from_heading(){
@@ -37,11 +33,11 @@ print_md_section_from_heading(){
 }
 
 print_md_section(){
-	HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf --preview "grep -A 100 {} $1  ")"
+    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf --preview "grep -A 100 {} $1 " --header \'Choose a heading (File: $MARKDOWN_DIR\$1)\')"
 	print_md_section_from_heading "${HEADING}" "${1}"
 }
 
-FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf )"
+FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf --header \'Choose a markdown file (Folder: $MARKDOWN_DIR)\')"
 
 
 if [[ ! -z "$FILE" ]]; then
