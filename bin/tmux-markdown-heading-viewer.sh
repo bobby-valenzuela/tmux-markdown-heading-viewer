@@ -55,7 +55,7 @@ MSG="Choose a file (Folder: ${BASE_DIR})"
 if command -v fd >/dev/null; then
     FILE="$(fd -H --type file -e md -e markdown . ${MARKDOWN_DIR} | fzf $(printf "${FZF_DEFAULT_OPTS}")   --layout=reverse --header "${MSG}" --preview-window down:60% --preview 'glow -p --width=80 {} ' )"
 else
-    FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf ${FZF_DEFAULT_OPTS})   --header "${MSG}" )"
+    FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf $(printf "${FZF_DEFAULT_OPTS}")   --header "${MSG}" )"
 fi
 
 
