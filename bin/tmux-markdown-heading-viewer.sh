@@ -33,12 +33,12 @@ print_md_section_from_heading(){
 }
 
 print_md_section(){
-    MSG="'Choose a heading (File: ${MARKDOWN_DIR}$1)'"
+    MSG="Choose a heading (File: ${MARKDOWN_DIR}$1)"
     HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf --preview "grep -A 100 {} $1 " --header "${MSG}")"
 	print_md_section_from_heading "${HEADING}" "${1}"
 }
 
-MSG="'Choose a file (Folder: ${MARKDOWN_DIR})'"
+MSG="Choose a file (Folder: ${MARKDOWN_DIR})"
 FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf --header "${MSG}" )"
 
 
