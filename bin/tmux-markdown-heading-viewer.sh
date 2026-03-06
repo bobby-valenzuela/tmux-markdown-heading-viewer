@@ -36,7 +36,7 @@ fi
 
 print_md_section(){
     MSG="Choose a heading (File: ${MARKDOWN_DIR}$1)"
-    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "--width=50 grep -A 100 {} $1 " --preview-window right:50% --header "${MSG}")"
+    HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "grep -A 100 {} $1 " --preview-window right:50% --header "${MSG}")"
 	# print_md_section_from_heading "${HEADING}" "${1}"
 	HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
 	sed -nE "/^\s*${HEADING}/,$ p" $1 | glow -s dark -p			# Print everything after the matching heading
