@@ -40,7 +40,7 @@ print_md_section(){
 
     if [ "$HEADING_COUNT" -gt 0 ]; then
         MSG="Choose a heading (File: ${BASE_FILE})"
-        HEADING="$(grep -E '^\s{0,3}#+' $1 | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
+        HEADING="$(grep -E '^\s{0,3}#+' $FILENAME_ESC | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
         sed -nE "/^\s*${HEADING}/,$ p" $FILENAME_ESC | glow -s dark -p			# Print everything after the matching heading
     else
