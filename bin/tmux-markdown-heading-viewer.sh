@@ -34,10 +34,16 @@ fi
 
 print_md_section(){
     BASE_FILE=$(basename "${1}")
-    MSG="Choose a heading (File: ${BASE_FILE})"
-    HEADING="$(grep -E '^\s{0,3}#+' $1 | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
-	HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
-	sed -nE "/^\s*${HEADING}/,$ p" $1 | glow -s dark -p			# Print everything after the matching heading
+    HEADING_COUNT=$(grep -E '^\s{0,3}#+' $1 | wc -l)
+
+    if [ "$HEADING_COUNT" -gt 0 ]; then
+        MSG="Choose a heading (File: ${BASE_FILE})"
+        HEADING="$(grep -E '^\s{0,3}#+' $1 | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
+        HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
+        sed -nE "/^\s*${HEADING}/,$ p" $1 | glow -s dark -p			# Print everything after the matching heading
+    else
+        glow -s dark p $1
+    fi
 
 }
 
