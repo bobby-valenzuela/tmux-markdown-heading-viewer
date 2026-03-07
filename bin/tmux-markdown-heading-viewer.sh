@@ -31,20 +31,11 @@ if [[ -z "$MARKDOWN_DIR" ]]; then
     echo "No folder saved/selected!" && exit
 fi
 
-# print_md_section_from_heading(){
-#
-#     # glow "$FILE" | grep '^#' | fzf --preview 'glow --width 80 --pager "$FILE" --from-line {+2}' --preview-window=up:70%
-#
-# 	HEADING="$(echo "${1}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
-# 	sed -nE "/^\s*${HEADING}/,$ p" $2 | glow -s dark -p			# Print everything after the matching heading
-# }
 
 print_md_section(){
     BASE_FILE=$(basename "${1}")
     MSG="Choose a heading (File: ${BASE_FILE})"
-    # HEADING="$(grep -E '^\s{0,3}#+' $1 | sort -k 2 -r | fzf -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
     HEADING="$(grep -E '^\s{0,3}#+' $1 | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
-	# print_md_section_from_heading "${HEADING}" "${1}"
 	HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
 	sed -nE "/^\s*${HEADING}/,$ p" $1 | glow -s dark -p			# Print everything after the matching heading
 
