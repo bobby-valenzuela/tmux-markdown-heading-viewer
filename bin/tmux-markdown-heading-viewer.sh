@@ -62,7 +62,7 @@ print_md_section(){
         MSG="Choose a heading (File: ${BASE_FILE})"
         HEADING="$(grep -E '^\s{0,3}#+' $FILE | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $FILE " --preview-window down:50% --header "${MSG}")"
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
-        sed -n "/^${HEADING}/,$ p" "$FILE" | glow -s dark -p\t\t\t# Print everything after the matching heading
+        sed -n "/^${HEADING}/,$ p" "$FILE" | glow -s dark -p
     else
         # If no headings, display the entire file
         glow -s dark -p "$FILE"
