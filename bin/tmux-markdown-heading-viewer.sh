@@ -6,7 +6,8 @@ FZF_DEFAULT_OPTS="\
   --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
   --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 \
   --color=selected-bg:#45475a \
-  --border=rounded --info=inline $(printf --prompt='❯ ')"
+  --border=rounded --info=inline"
+FILE=
 
 if [[ -s $CURRENT_DIR/markdown_dir.txt && "${1}" != 'reset' ]]; then
 
@@ -34,17 +35,21 @@ fi
 
 print_md_section(){
     BASE_FILE=$(basename "${FILE}")
-    HEADING_COUNT=$(grep -E '^\s{0,3}#+' $FILE | wc -l)
 
-    FILENAME_ESC="$(printf $1 | sed 's/\s/\ /g')"
+    HEADING_COUNT=$(grep -E '^\s{0,3}#+' "$FILE" | wc -l)
+
+    FILENAME_ESC="$(printf $FILE | sed 's/\s/\ /g')"
 
     if [ "$HEADING_COUNT" -gt 0 ]; then
         MSG="Choose a heading (File: ${BASE_FILE})"
         HEADING="$(grep -E '^\s{0,3}#+' $FILE | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $FILE " --preview-window down:50% --header "${MSG}")"
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
-        sed -nE "/^\s*${HEADING}/,$ p" $FILE | glow -s dark -p			# Print everything after the matching heading
+        echo "HEADING: $HEADING"
+        # sed -nE "/^\s*${HEADING}/,$ p" $FILE | glow -s dark -p			# Print everything after the matching heading
+        HEADING=$(printf $HEADING | sed -E 's:(:\(:g' | sed -E 's:):\):g')
+        sed -nE "/^\s*${HEADING}/,$ p" "$FILE" | glow -s dark -p			# Print everything after the matching heading
     else
-        glow -s dark -p $FILE
+        glow -s dark -p "$FILE"
     fi
 
 }
