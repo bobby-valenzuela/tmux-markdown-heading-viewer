@@ -33,18 +33,18 @@ fi
 
 
 print_md_section(){
-    BASE_FILE=$(basename "${1}")
-    HEADING_COUNT=$(grep -E '^\s{0,3}#+' $1 | wc -l)
+    BASE_FILE=$(basename "${FILE}")
+    HEADING_COUNT=$(grep -E '^\s{0,3}#+' $FILE | wc -l)
 
     FILENAME_ESC="$(printf $1 | sed 's/\s/\ /g')"
 
     if [ "$HEADING_COUNT" -gt 0 ]; then
         MSG="Choose a heading (File: ${BASE_FILE})"
-        HEADING="$(grep -E '^\s{0,3}#+' $FILENAME_ESC | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $1 " --preview-window down:50% --header "${MSG}")"
+        HEADING="$(grep -E '^\s{0,3}#+' $FILE | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $FILE " --preview-window down:50% --header "${MSG}")"
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
-        sed -nE "/^\s*${HEADING}/,$ p" $FILENAME_ESC | glow -s dark -p			# Print everything after the matching heading
+        sed -nE "/^\s*${HEADING}/,$ p" $FILE | glow -s dark -p			# Print everything after the matching heading
     else
-        glow -s dark -p $1
+        glow -s dark -p $FILE
     fi
 
 }
@@ -59,7 +59,7 @@ fi
 
 
 if [[ ! -z "$FILE" ]]; then
-    print_md_section $FILE
+    print_md_section
 fi
 
 
