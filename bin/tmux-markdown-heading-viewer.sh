@@ -63,6 +63,14 @@ print_md_section(){
         HEADING="$(grep -E '^\s{0,3}#+' $FILE | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse -m --preview "grep -A 100 {} $FILE " --preview-window down:50% --header "${MSG}")"
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
         sed -n "/^${HEADING}/,$ p" "$FILE" | glow -s dark -p
+
+        # Escape regex special characters in HEADING
+        # HEADING_ESCAPED=$(echo "$HEADING" | sed 's/[.*+?^$|()[\]{}\\]/\\&/g')
+        # Handle bold headings
+        HEADING_ESCAPED=$( printf "$HEADING" | sed 's/*/\\*/g')
+
+        sed -n "/^${HEADING_ESCAPED}/,$ p" "$FILE" | glow -s dark
+
     else
         # If no headings, display the entire file
         glow -s dark -p "$FILE"
