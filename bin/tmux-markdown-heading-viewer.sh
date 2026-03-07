@@ -46,7 +46,7 @@ print_md_section(){
         HEADING="$(echo "${HEADING}" | sed -E 's:\r::' | sed -E 's:\s+$::')"	# Trim trailing newlines and spaces;	
         echo "HEADING: $HEADING"
         # sed -nE "/^\s*${HEADING}/,$ p" $FILE | glow -s dark -p			# Print everything after the matching heading
-        HEADING=$(printf $HEADING | sed -E 's:(:\(:g' | sed -E 's:):\):g')
+        HEADING=$(printf $HEADING | sed -E 's:\(:\(:g' | sed -E 's:\):\):g')
         sed -nE "/^\s*${HEADING}/,$ p" "$FILE" | glow -s dark -p			# Print everything after the matching heading
     else
         glow -s dark -p "$FILE"
