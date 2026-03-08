@@ -3,6 +3,10 @@ A tmux plugin that allows you to interactively select a Markdown heading from a 
 
 Great for quick access to your obsidian vault.
 
+![demo1](./assets/demo-001.gif)  
+
+<br />
+
 ## Features
 
 - **Interactive Selection**: Use fuzzy search to select folders, markdown files, and headings with `fzf`.
@@ -66,3 +70,13 @@ Change the pager by changing your `PAGER` environment variable. This means addin
 ```sh
 export PAGER="less"
 ```
+
+
+<br />
+
+## Other images
+
+![demo3](./assets/demo-003.png)  
+![demo2](./assets/demo-002.png)  
+![demo4](./assets/demo-004.png)  
+
