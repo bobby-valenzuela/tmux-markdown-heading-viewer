@@ -27,9 +27,9 @@ else
     # Prompt user to select a markdown directory using fzf
     MARKDOWN_DIR=$(
         if command -v fd >/dev/null && command -v tree >/dev/null; then
-            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse --preview 'tree -C {}' --header 'Choose a folder' --preview-window=down:40%
+            fd --type d --hidden --follow --exclude .git . /home/ 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}") --layout=reverse --preview 'tree -C {}' --header 'Choose a folder' --preview-window=down:50%
         else
-            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}")  --layout=reverse --preview 'ls -la --color=always {}' --preview-window=down:40% --header 'Choose a folder'
+            find /home/ -mindepth 1 -type d -not -path '*/\.*' 2>/dev/null | fzf $(printf "${FZF_DEFAULT_OPTS}")  --layout=reverse --preview 'ls -la --color=always {}' --preview-window=down:50% --header 'Choose a folder'
         fi
     )
 
@@ -74,7 +74,7 @@ print_md_section(){
 BASE_DIR=$(basename "${MARKDOWN_DIR}")
 MSG="Choose a file (Folder: ${BASE_DIR})"
 if command -v fd >/dev/null; then
-    FILE="$(fd -H --type file -e md -e markdown . ${MARKDOWN_DIR} | fzf $(printf "${FZF_DEFAULT_OPTS}")   --layout=reverse --header "${MSG}" --preview-window down:50% --preview 'glow -p --width=80 {} ' )"
+    FILE="$(fd -H --type file -e md -e markdown . ${MARKDOWN_DIR} | fzf $(printf "${FZF_DEFAULT_OPTS}")   --layout=reverse --header "${MSG}" --preview-window down:60% --preview 'glow -p --width=80 {} ' )"
 else
     FILE="$(find $MARKDOWN_DIR -type f \( -iname "*.md" -o -iname "*.markdown" \) | fzf $(printf "${FZF_DEFAULT_OPTS}")   --header "${MSG}" )"
 fi
