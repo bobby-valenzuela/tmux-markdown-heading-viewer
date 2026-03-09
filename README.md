@@ -43,7 +43,7 @@ set -g @plugin 'bobby-valenzuela/tmux-markdown-heading-viewer'
 1. Clone the repository
 
 ```sh
-git clone https://github.com/kenos1/tmux-markdown-heading-viewer ~/clone/path
+git clone https://github.com/bobby-valenzuela/tmux-markdown-heading-viewer ~/clone/path
 ```
 
 2. Put this line in your config
